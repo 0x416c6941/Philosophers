@@ -1,0 +1,12 @@
+# Vim files.
+.vimrc
+*.swp
+
+# Binary, object files, dependency files, compiled libraries.
+a.out
+/philo/philo
+/philo_bonus/philo_bonus
+*.o
+*.d
+*.a
+*.so
