@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 00:50:00 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 00:53:56 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 00:55:50 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ void	ft_usleep(long ms)
 
 	while (42)
 		if ((ft_get_current_ms() - start) >= ms)
-			break;
+			break ;
 }
