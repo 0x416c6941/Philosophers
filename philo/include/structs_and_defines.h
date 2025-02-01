@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:56:23 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/01 23:54:36 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 00:28:27 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,22 @@
 # define ARGS_W_CYCLES	6
 
 /* For error logging. */
-# define APP_NAME			"philo"
-# define BAD_ARG_COUNT_MSG	"Invalid usage. Please see subject for details."
-# define EMPTY_ARG_MSG		"Some argument is empty."
-# define INVALID_ARG_MSG	"Some argument is not a number or overflows."
+# define APP_NAME				"philo"
+# define BAD_ARG_COUNT_MSG		"Invalid usage."
+# define EMPTY_ARG_MSG			"Some argument is empty."
+# define INVALID_ARG_MSG		"Some argument isn't a number or overflows."
+# define ARG_IS_NEGATIVE_MSG	"Some argument is negative."
+# define ZERO_PHILOSOPHERS_MSG	"Number of philosophers can't be 0."
 
 /**
  * ---------------------------------------------------------------------------
  * Structures.
  * ---------------------------------------------------------------------------
+ */
+/**
+ * About time frames: it's not written in the subject, that
+ * time_to_die, time_to_eat or time_to_sleep can't be 0.
+ * So we treat 0 time frames as valid.
  */
 struct s_args
 {

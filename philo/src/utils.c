@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:04:11 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/01 23:27:00 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 00:17:07 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_atoi_modified(const char **nptr, int *out)
 	*out = 0;
 	while (ft_isdigit(**nptr))
 	{
-		if (!((*out * 10 + (**nptr - '0')) > *out))
+		if ((*out * 10 + (**nptr - '0')) < *out)
 			return (-1);
 		*out = *out * 10 + (*((*nptr)++) - '0');
 	}
