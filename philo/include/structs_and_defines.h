@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:56:23 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 00:43:52 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 00:52:03 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define INVALID_ARG_MSG		"Some argument isn't a number or overflows."
 # define ARG_IS_NEGATIVE_MSG	"Some argument is negative."
 # define ZERO_PHILOSOPHERS_MSG	"Number of philosophers can't be 0."
+# define GETTIMEOFDAY_FAIL_MSG	"gettimeofday() failed."
 
 /**
  * ---------------------------------------------------------------------------
