@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:56:23 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 02:41:26 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 01:01:39 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ struct s_philo
 	pthread_t		thread;
 	int				id;				/* For output (logging) increase by 1. */
 	long			last_meal;		/* Time of last meal in milliseconds. */
+	pthread_mutex_t	meal_lock;		/* \ref last_meal is a critical section. */
 	int				meals_eaten;
-	/* \ref last_meal and \ref meals_eaten are both critical sections. */
-	pthread_mutex_t	meal_lock;
 	struct s_data	*main_data;
 };
 
@@ -74,8 +73,6 @@ struct s_data
 	pthread_mutex_t	output_lock;
 	pthread_mutex_t	*forks;
 	bool			some_philo_died;
-	/* \ref some_philo_died is also a critical section. */
-	pthread_mutex_t	death_lock;
 };
 
 #endif	/* STRUCTS_AND_DEFINES_H */

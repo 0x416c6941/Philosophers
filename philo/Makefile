@@ -9,9 +9,7 @@ INC_DIR = include
 
 # Source files.
 SRC_DIR = src
-SRC_FILES = main.c utils.c init.c time_stuff.c				\
-	    routines/philo_routine.c routines/watchdog_routine.c	\
-	    routines/utils.c
+SRC_FILES = main.c utils.c init.c time_stuff.c
 SRC_FILES := $(addprefix $(SRC_DIR)/,$(SRC_FILES))
 
 # Object files.

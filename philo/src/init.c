@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:38:21 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 02:20:50 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 01:32:04 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,6 @@ static int	ft_init_forks(struct s_data *out)
 	return (0);
 }
 
-/**
- * Calling ft_deinit() if initialization of output_lock or of death_lock
- * in \p out fails isn't the best idea,
- * since behavior of pthread_mutex_destroy(), when used on non-existing lock,
- * isn't defined, but I don't care...
- */
 int	ft_init_everything_else(struct s_data *out)
 {
 	int	i;
@@ -128,6 +122,13 @@ int	ft_init_everything_else(struct s_data *out)
 	out->start_time = ft_get_current_ms();
 	if (ft_init_philos(out) == -1)
 		return (-1);
+	else if (pthread_mutex_init(&out->output_lock, NULL) == -1)
+	{
+		i = 0;
+		while (i < out->args.num_of_philos)
+			(void)pthread_mutex_destroy(&out->philos[i++].meal_lock);
+		return (free(out->philos), out->philos = NULL, -1);
+	}
 	else if (ft_init_forks(out) == -1)
 	{
 		i = 0;
@@ -136,9 +137,6 @@ int	ft_init_everything_else(struct s_data *out)
 		return (free(out->philos), out->philos = NULL,
 			(void)pthread_mutex_destroy(&out->output_lock), -1);
 	}
-	else if (pthread_mutex_init(&out->output_lock, NULL) == -1
-		|| pthread_mutex_init(&out->death_lock, NULL) == -1)
-		ft_deinit(out);
 	return (0);
 }
 
@@ -159,5 +157,4 @@ void	ft_deinit(struct s_data *data)
 	free(data->forks);
 	data->forks = NULL;
 	(void)pthread_mutex_destroy(&data->output_lock);
-	(void)pthread_mutex_destroy(&data->death_lock);
 }
