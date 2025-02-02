@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:38:21 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 01:32:04 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:36:35 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,41 +48,6 @@ int	ft_init_args(int argc, char *argv[], struct s_args *out)
 
 /**
  * Norminette Bypass.
- * Allocate memory for philos and initialize them and their mutexes.
- * @param	out	Where to save philos.
- * @return	-1, if something went wrong;
- * 			Some non-negative value, if everything went ok.
- */
-static int	ft_init_philos(struct s_data *out)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	out->philos = (struct s_philo *)malloc(
-			(long unsigned int)out->args.num_of_philos
-			* sizeof(struct s_philo));
-	if (out->philos == NULL)
-		return (-1);
-	while (i < out->args.num_of_philos)
-	{
-		out->philos[i].id = i;
-		out->philos[i].last_meal = out->start_time;
-		if (pthread_mutex_init(&out->philos[i].meal_lock, NULL) == -1)
-		{
-			j = 0;
-			while (j < i)
-				(void)pthread_mutex_destroy(&out->philos[j++].meal_lock);
-			return (free(out->philos), out->philos = NULL, -1);
-		}
-		out->philos[i].meals_eaten = 0;
-		out->philos[i++].main_data = out;
-	}
-	return (0);
-}
-
-/**
- * Norminette Bypass.
  * Allocate memory for forks in \p out and initialize their mutexes.
  * @param	out	Where to save the forks.
  * @return	-1, if something went wrong;
@@ -93,9 +58,8 @@ static int	ft_init_forks(struct s_data *out)
 	int	i;
 	int	j;
 
-	out->forks = (pthread_mutex_t *)malloc(
-			(long unsigned int)out->args.num_of_philos
-			* sizeof(pthread_mutex_t));
+	out->forks = (pthread_mutex_t *)malloc((long unsigned int)out
+			->args.num_of_philos * sizeof(pthread_mutex_t));
 	if (out->forks == NULL)
 		return (-1);
 	i = 0;
@@ -115,27 +79,62 @@ static int	ft_init_forks(struct s_data *out)
 	return (0);
 }
 
-int	ft_init_everything_else(struct s_data *out)
+/**
+ * Norminette Bypass.
+ * Allocate memory for philos and initialize them and their mutexes,
+ * except for their threads (they're not getting started yet).
+ * @param	out	Where to save philos.
+ * @return	-1, if something went wrong;
+ * 			Some non-negative value, if everything went ok.
+ */
+static int	ft_init_philos_except_for_threads(struct s_data *out)
+{
+	long unsigned int	i;
+	long unsigned int	j;
+
+	i = 0;
+	out->philos = malloc((long unsigned int)out
+			->args.num_of_philos * sizeof(struct s_philo));
+	if (out->philos == NULL)
+		return (-1);
+	while (i < (long unsigned int)out->args.num_of_philos)
+	{
+		out->philos[i].id = i + 1;
+		if (pthread_mutex_init(&out->philos[i].meal_lock, NULL) == -1)
+		{
+			j = 0;
+			while (j < i)
+				(void)pthread_mutex_destroy(&out->philos[j++].meal_lock);
+			return (free(out->philos), out->philos = NULL, -1);
+		}
+		out->philos[i].r_fork = &out->forks[i];
+		out->philos[i].l_fork = out->forks + (i - 1) * sizeof(pthread_mutex_t);
+		if (i == 0)
+			out->philos[i].l_fork = &out->forks[out->args.num_of_philos - 1];
+		out->philos[i++].main_data = out;
+	}
+	return (0);
+}
+
+int	ft_init_everything_except_for_threads_and_time(struct s_data *out)
 {
 	int	i;
 
-	out->start_time = ft_get_current_ms();
-	if (ft_init_philos(out) == -1)
+	if (pthread_mutex_init(&out->output_lock, NULL) == -1)
 		return (-1);
-	else if (pthread_mutex_init(&out->output_lock, NULL) == -1)
-	{
-		i = 0;
-		while (i < out->args.num_of_philos)
-			(void)pthread_mutex_destroy(&out->philos[i++].meal_lock);
-		return (free(out->philos), out->philos = NULL, -1);
-	}
+	else if (pthread_mutex_init(&out->finish_lock, NULL) == -1)
+		return ((void)pthread_mutex_destroy(&out->output_lock), -1);
 	else if (ft_init_forks(out) == -1)
+		return ((void)pthread_mutex_destroy(&out->output_lock),
+			(void)pthread_mutex_destroy(&out->finish_lock), -1);
+	else if (ft_init_philos_except_for_threads(out) == -1)
 	{
 		i = 0;
 		while (i < out->args.num_of_philos)
-			(void)pthread_mutex_destroy(&out->philos[i++].meal_lock);
-		return (free(out->philos), out->philos = NULL,
-			(void)pthread_mutex_destroy(&out->output_lock), -1);
+			(void)pthread_mutex_destroy(&out->forks[i++]);
+		return ((void)pthread_mutex_destroy(&out->output_lock),
+			(void)pthread_mutex_destroy(&out->finish_lock),
+			free(out->forks), out->forks = NULL, -1);
 	}
 	return (0);
 }
@@ -147,7 +146,7 @@ void	ft_deinit(struct s_data *data)
 	i = 0;
 	while (i < data->args.num_of_philos)
 	{
-		(void)pthread_join(data->philos[i].thread, NULL);
+		//(void)pthread_join(data->philos[i].thread, NULL);
 		(void)pthread_mutex_destroy(&data->philos[i].meal_lock);
 		(void)pthread_mutex_destroy(&data->forks[i]);
 		i++;
@@ -157,4 +156,5 @@ void	ft_deinit(struct s_data *data)
 	free(data->forks);
 	data->forks = NULL;
 	(void)pthread_mutex_destroy(&data->output_lock);
+	(void)pthread_mutex_destroy(&data->finish_lock);
 }

@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:56:23 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 01:01:39 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:22:33 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,15 @@ struct s_args
 struct s_philo
 {
 	pthread_t		thread;
-	int				id;				/* For output (logging) increase by 1. */
+	int				id;
 	long			last_meal;		/* Time of last meal in milliseconds. */
-	pthread_mutex_t	meal_lock;		/* \ref last_meal is a critical section. */
 	int				meals_eaten;
+	/* \ref last_meal and meals_eaten are both crtiical sections. */
+	pthread_mutex_t	meal_lock;
+	/* To make stuff easier, these are pointers
+	 * to right and left forks for philo to take. */
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
 	struct s_data	*main_data;
 };
 
@@ -70,9 +75,10 @@ struct s_data
 	struct s_args	args;
 	struct s_philo	*philos;
 	long			start_time;
-	pthread_mutex_t	output_lock;
 	pthread_mutex_t	*forks;
-	bool			some_philo_died;
+	pthread_mutex_t	output_lock;
+	bool			finished;
+	pthread_mutex_t	finish_lock;
 };
 
 #endif	/* STRUCTS_AND_DEFINES_H */

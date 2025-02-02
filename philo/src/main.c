@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:46:33 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 00:45:54 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:36:22 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,8 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	else if (data.args.num_of_philos == 0)
 		return (ft_errmsg(ZERO_PHILOSOPHERS_MSG, WITH_NEWLINE), EXIT_FAILURE);
+	if (ft_init_everything_except_for_threads_and_time(&data) == -1)
+		return (ft_errmsg(MALLOC_FAIL_MSG, WITH_NEWLINE), EXIT_FAILURE);
+	ft_deinit(&data);
 	return (0);
 }
