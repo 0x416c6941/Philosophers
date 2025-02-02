@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:38:21 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 00:57:44 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:59:32 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static void	ft_philo_set_forks(struct s_philo *philo)
 		philo->f_fork = &philo->main_data->forks[idx];
 		if (idx == 0)
 			philo->s_fork = &philo->main_data->forks
-				[philo->main_data->args.num_of_philos - 1];
+			[philo->main_data->args.num_of_philos - 1];
 		else
 			philo->s_fork = &philo->main_data->forks[idx - 1];
 	}
@@ -102,7 +102,7 @@ static void	ft_philo_set_forks(struct s_philo *philo)
 	{
 		if (idx == 0)
 			philo->f_fork = &philo->main_data->forks
-				[philo->main_data->args.num_of_philos - 1];
+			[philo->main_data->args.num_of_philos - 1];
 		else
 			philo->f_fork = &philo->main_data->forks[idx - 1];
 		philo->s_fork = &philo->main_data->forks[idx];
