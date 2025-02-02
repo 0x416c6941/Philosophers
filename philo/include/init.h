@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:30:32 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 00:29:27 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 01:15:40 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,13 @@
  * 			Some non-negative value, if all arguments are ok.
  */
 int	ft_init_args(int argc, char *argv[], struct s_args *out);
+
+/**
+ * Yep, literally init everything else!
+ * @param	out	Where to save the initialized stuff.
+ * @return	-1, if something went wrong;
+ * 			Some non-negative value, if everything went ok.
+ */
+int	ft_init_everything_else(struct s_data *out);
 
 #endif	/* INIT_H */
