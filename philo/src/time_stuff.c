@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 00:50:00 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 00:55:50 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:13:12 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,16 @@ long	ft_get_current_ms(void)
 	return (time.tv_sec * MS_IN_SEC + time.tv_usec / MICROSECONDS_IN_MS);
 }
 
+void	ft_wait_until(long ms)
+{
+	while (ft_get_current_ms() < ms)
+		;
+}
+
 void	ft_usleep(long ms)
 {
 	const long	start = ft_get_current_ms();
 
-	while (42)
-		if ((ft_get_current_ms() - start) >= ms)
-			break ;
+	while ((ft_get_current_ms() - start) < ms)
+		;
 }

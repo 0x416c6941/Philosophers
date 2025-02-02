@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:38:21 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 14:36:35 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:48:50 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	ft_deinit(struct s_data *data)
 	i = 0;
 	while (i < data->args.num_of_philos)
 	{
-		//(void)pthread_join(data->philos[i].thread, NULL);
+		(void)pthread_join(data->philos[i].thread, NULL);
 		(void)pthread_mutex_destroy(&data->philos[i].meal_lock);
 		(void)pthread_mutex_destroy(&data->forks[i]);
 		i++;
