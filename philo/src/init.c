@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:38:21 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 18:54:36 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:57:44 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,28 @@ static int	ft_init_forks(struct s_data *out)
  * @param	philo	Philo.
  * @param	i		Id of \p philo.
  */
-static void	ft_philo_set_forks(struct s_philo *philo, int i)
+static void	ft_philo_set_forks(struct s_philo *philo)
 {
+	const int	idx = philo->id - 1;
+
+	if ((philo->id % 2) == 0)
+	{
+		philo->f_fork = &philo->main_data->forks[idx];
+		if (idx == 0)
+			philo->s_fork = &philo->main_data->forks
+				[philo->main_data->args.num_of_philos - 1];
+		else
+			philo->s_fork = &philo->main_data->forks[idx - 1];
+	}
+	else
+	{
+		if (idx == 0)
+			philo->f_fork = &philo->main_data->forks
+				[philo->main_data->args.num_of_philos - 1];
+		else
+			philo->f_fork = &philo->main_data->forks[idx - 1];
+		philo->s_fork = &philo->main_data->forks[idx];
+	}
 }
 
 /**
@@ -118,11 +138,9 @@ static int	ft_init_philos_except_for_threads_and_time(struct s_data *out)
 				(void)pthread_mutex_destroy(&out->philos[j++].meal_lock);
 			return (free(out->philos), out->philos = NULL, -1);
 		}
-		out->philos[i].r_fork = &out->forks[i];
-		out->philos[i].l_fork = out->forks + (i - 1) * sizeof(pthread_mutex_t);
-		if (i == 0)
-			out->philos[i].l_fork = &out->forks[out->args.num_of_philos - 1];
-		out->philos[i++].main_data = out;
+		out->philos[i].main_data = out;
+		ft_philo_set_forks(&out->philos[i]);
+		i++;
 	}
 	return (0);
 }
@@ -148,24 +166,4 @@ int	ft_init_everything_except_for_threads_and_time(struct s_data *out)
 			free(out->forks), out->forks = NULL, -1);
 	}
 	return (0);
-}
-
-void	ft_deinit(struct s_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->args.num_of_philos)
-	{
-		(void)pthread_join(data->philos[i].thread, NULL);
-		(void)pthread_mutex_destroy(&data->philos[i].meal_lock);
-		(void)pthread_mutex_destroy(&data->forks[i]);
-		i++;
-	}
-	free(data->philos);
-	data->philos = NULL;
-	free(data->forks);
-	data->forks = NULL;
-	(void)pthread_mutex_destroy(&data->output_lock);
-	(void)pthread_mutex_destroy(&data->finish_lock);
 }

@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:56:23 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 14:50:25 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:52:02 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ struct s_philo
 	/* \ref last_meal and meals_eaten are both crtiical sections. */
 	pthread_mutex_t	meal_lock;
 	/* To make stuff easier, these are pointers
-	 * to right and left forks for philo to take. */
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork;
+	 * to first and second forks for philo to take. */
+	pthread_mutex_t	*f_fork;
+	pthread_mutex_t	*s_fork;
 	struct s_data	*main_data;
 };
 
@@ -76,6 +76,8 @@ struct s_data
 	struct s_philo	*philos;
 	long			start_time;
 	pthread_mutex_t	*forks;
+	/* Do we even need \ref output_lock, when everything
+	 * is potentially synchronized with \p finish_lock? */
 	pthread_mutex_t	output_lock;
 	bool			finished;
 	pthread_mutex_t	finish_lock;
