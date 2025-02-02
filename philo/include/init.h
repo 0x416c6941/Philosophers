@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:30:32 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 01:15:40 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 01:28:25 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
  * @return	-1, if something went wrong;
  * 			Some non-negative value, if all arguments are ok.
  */
-int	ft_init_args(int argc, char *argv[], struct s_args *out);
+int		ft_init_args(int argc, char *argv[], struct s_args *out);
 
 /**
  * Yep, literally init everything else!
@@ -42,6 +42,12 @@ int	ft_init_args(int argc, char *argv[], struct s_args *out);
  * @return	-1, if something went wrong;
  * 			Some non-negative value, if everything went ok.
  */
-int	ft_init_everything_else(struct s_data *out);
+int		ft_init_everything_else(struct s_data *out);
+
+/**
+ * Wait for all philos to stop running, and clear all allocated memory.
+ * @param	data	Data to deallocate.
+ */
+void	ft_deinit(struct s_data *data);
 
 #endif	/* INIT_H */

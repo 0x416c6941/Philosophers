@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:38:21 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 01:23:32 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 01:32:04 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <time_stuff.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <pthread.h>
 
 int	ft_init_args(int argc, char *argv[], struct s_args *out)
 {
@@ -137,4 +138,23 @@ int	ft_init_everything_else(struct s_data *out)
 			(void)pthread_mutex_destroy(&out->output_lock), -1);
 	}
 	return (0);
+}
+
+void	ft_deinit(struct s_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->args.num_of_philos)
+	{
+		(void)pthread_join(data->philos[i].thread, NULL);
+		(void)pthread_mutex_destroy(&data->philos[i].meal_lock);
+		(void)pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	free(data->philos);
+	data->philos = NULL;
+	free(data->forks);
+	data->forks = NULL;
+	(void)pthread_mutex_destroy(&data->output_lock);
 }
