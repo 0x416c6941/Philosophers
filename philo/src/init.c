@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:38:21 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 14:48:50 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/02 18:54:36 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,24 +80,35 @@ static int	ft_init_forks(struct s_data *out)
 }
 
 /**
+ * Yet another Norminette Bypass.
+ * Sets forks in \p philo depending on \p i.
+ * @param	philo	Philo.
+ * @param	i		Id of \p philo.
+ */
+static void	ft_philo_set_forks(struct s_philo *philo, int i)
+{
+}
+
+/**
  * Norminette Bypass.
  * Allocate memory for philos and initialize them and their mutexes,
- * except for their threads (they're not getting started yet).
+ * except for their threads (they're not getting started yet)
+ * and their last meal time.
  * @param	out	Where to save philos.
  * @return	-1, if something went wrong;
  * 			Some non-negative value, if everything went ok.
  */
-static int	ft_init_philos_except_for_threads(struct s_data *out)
+static int	ft_init_philos_except_for_threads_and_time(struct s_data *out)
 {
-	long unsigned int	i;
-	long unsigned int	j;
+	int	i;
+	int	j;
 
 	i = 0;
 	out->philos = malloc((long unsigned int)out
 			->args.num_of_philos * sizeof(struct s_philo));
 	if (out->philos == NULL)
 		return (-1);
-	while (i < (long unsigned int)out->args.num_of_philos)
+	while (i < out->args.num_of_philos)
 	{
 		out->philos[i].id = i + 1;
 		if (pthread_mutex_init(&out->philos[i].meal_lock, NULL) == -1)
@@ -127,7 +138,7 @@ int	ft_init_everything_except_for_threads_and_time(struct s_data *out)
 	else if (ft_init_forks(out) == -1)
 		return ((void)pthread_mutex_destroy(&out->output_lock),
 			(void)pthread_mutex_destroy(&out->finish_lock), -1);
-	else if (ft_init_philos_except_for_threads(out) == -1)
+	else if (ft_init_philos_except_for_threads_and_time(out) == -1)
 	{
 		i = 0;
 		while (i < out->args.num_of_philos)
