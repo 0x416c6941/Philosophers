@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:02:43 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 01:48:06 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 02:02:20 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,11 @@ static bool	ft_philo_sleep(struct s_philo *arg)
 
 /**
  * Philos thinking routine.
- * To make sure
- * @param	arg	Philos data.
+ * To make sure that some philo doesn't get too greedy,
+ * it would get suspended a bit, however not too much,
+ * so that it doesn't starve to death.
+ * @param	arg			Philos data.
+ * @param	think_mode	Whether thinking should be logged or not.
  * @return	true, if simulation hasn't stopped;
  * 			false, if simulation has stopped.
  */
@@ -101,6 +104,7 @@ static bool	ft_philo_think(struct s_philo *arg, enum e_think_mode think_mode)
 	if (think_mode == WITH_LOGGING)
 		ft_log(arg, THINKING);
 	(void)pthread_mutex_unlock(&arg->main_data->finish_lock);
+	ft_usleep(time_to_think);
 	return (true);
 }
 
