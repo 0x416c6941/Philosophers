@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:02:43 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 02:41:11 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 02:46:27 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static bool	ft_philo_sleep(struct s_philo *arg)
 	return (true);
 }
 
-/* Thanks a lot to @mcombeau! */
+/* In microseconds. Thanks a lot to @mcombeau! */
 #define TOO_MUCH_THINKING_TIME		600
 #define THINKING_TIME_UPPER_FLOOR	200
 
@@ -107,7 +107,7 @@ static bool	ft_philo_think(struct s_philo *arg, enum e_think_mode think_mode)
 	if (think_mode == WITH_LOGGING)
 		ft_log(arg, THINKING);
 	(void)pthread_mutex_unlock(&arg->main_data->finish_lock);
-	ft_usleep(time_to_think);
+	usleep(time_to_think);
 	return (true);
 }
 
