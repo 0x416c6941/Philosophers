@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:02:43 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 01:23:15 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:48:06 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static bool	ft_philo_eat(struct s_philo *arg)
 }
 
 /**
- * Philos eating routine.
+ * Philos sleeping routine.
  * @param	arg	Philos data.
  * @return	true, if simulation hasn't stopped;
  * 			false, if simulation has stopped.
@@ -68,13 +68,18 @@ static bool	ft_philo_sleep(struct s_philo *arg)
 	return (true);
 }
 
+/* Thanks a lot to @mcombeau! */
+#define TOO_MUCH_THINKING_TIME		600
+#define THINKING_TIME_UPPER_FLOOR	200
+
 /**
  * Philos thinking routine.
+ * To make sure
  * @param	arg	Philos data.
  * @return	true, if simulation hasn't stopped;
  * 			false, if simulation has stopped.
  */
-static bool	ft_philo_think(struct s_philo *arg, bool silent)
+static bool	ft_philo_think(struct s_philo *arg, enum e_think_mode think_mode)
 {
 	long	time_to_think;
 
@@ -85,19 +90,22 @@ static bool	ft_philo_think(struct s_philo *arg, bool silent)
 	(void)pthread_mutex_unlock(&arg->meal_lock);
 	if (time_to_think < 0)
 		time_to_think = 0;
-	if (time_to_think == 0 && silent)
+	if (time_to_think == 0 && think_mode == SILENT)
 		time_to_think = 1;
-	if (time_to_think > 600)
-		time_to_think = 200;
+	if (time_to_think > TOO_MUCH_THINKING_TIME)
+		time_to_think = THINKING_TIME_UPPER_FLOOR;
 	(void)pthread_mutex_lock(&arg->main_data->finish_lock);
 	if (arg->main_data->finished)
 		return ((void)pthread_mutex_unlock(&arg->main_data->finish_lock),
 			false);
-	if (!silent)
+	if (think_mode == WITH_LOGGING)
 		ft_log(arg, THINKING);
 	(void)pthread_mutex_unlock(&arg->main_data->finish_lock);
 	return (true);
 }
+
+#undef THINKING_TIME_UPPER_FLOOR
+#undef TOO_MUCH_THINKING_TIME
 
 /* There's no need to check the finish flag in the beginning,
  * as we know that simulation can't finish when it hasn't even started yet. */
@@ -112,8 +120,8 @@ void	*ft_philo_routine(struct s_philo *arg)
 		|| arg->main_data->args.cycles == 0)
 		return ((void *)0);
 	ft_wait_until(arg->main_data->start_time);
-	if (arg->id % 2 == 0)
-		ft_philo_think(arg, true);
+	if ((arg->id % 2) == 0)
+		ft_philo_think(arg, SILENT);
 	while (42)
 	{
 		if (ft_philo_eat(arg) == false)
@@ -124,7 +132,7 @@ void	*ft_philo_routine(struct s_philo *arg)
 			return ((void)pthread_mutex_unlock(&arg->meal_lock), (void *)0);
 		(void)pthread_mutex_unlock(&arg->meal_lock);
 		if (ft_philo_sleep(arg) == false
-			|| ft_philo_think(arg, false) == false)
+			|| ft_philo_think(arg, WITH_LOGGING) == false)
 			return ((void *)0);
 	}
 }

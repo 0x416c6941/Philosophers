@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 14:49:03 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 01:19:40 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:46:34 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <time_stuff.h>
 
-void	ft_log(struct s_philo *philo, enum e_mutex_printf action)
+void	ft_log(struct s_philo *philo, enum e_log_what action)
 {
 	long	ms_timestamp;
 

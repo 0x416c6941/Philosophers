@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 14:42:04 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 01:24:57 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:47:26 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,21 @@
 # include <structs_and_defines.h>
 # include <stdbool.h>
 
-enum e_mutex_printf
+/* What to log with ft_log(). */
+enum e_log_what
 {
 	FORK,
 	FORK_AND_EATING,
 	SLEEPING,
 	THINKING,
 	DIED
+};
+
+/* For ft_philo_think() in philo_routine.c. */
+enum e_think_mode
+{
+	SILENT,
+	WITH_LOGGING
 };
 
 /**
@@ -50,6 +58,6 @@ void	*ft_watchdog_routine(struct s_data *data);
  * @param	philo	Which philo does some action.
  * @param	action	Which action exactly is it.
  */
-void	ft_log(struct s_philo *philo, enum e_mutex_printf action);
+void	ft_log(struct s_philo *philo, enum e_log_what action);
 
 #endif	/* ROUTINES_H */
