@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:38:21 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 00:59:32 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:21:32 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ static void	ft_philo_set_forks(struct s_philo *philo)
  * Allocate memory for philos and initialize them and their mutexes,
  * except for their threads (they're not getting started yet)
  * and their last meal time.
+ * @warning	Forks in \p out must be initialized before calling this function!
  * @param	out	Where to save philos.
  * @return	-1, if something went wrong;
  * 			Some non-negative value, if everything went ok.
@@ -124,8 +125,8 @@ static int	ft_init_philos_except_for_threads_and_time(struct s_data *out)
 	int	j;
 
 	i = 0;
-	out->philos = malloc((long unsigned int)out
-			->args.num_of_philos * sizeof(struct s_philo));
+	out->philos = malloc((long unsigned int)(out
+				->args.num_of_philos) * sizeof(struct s_philo));
 	if (out->philos == NULL)
 		return (-1);
 	while (i < out->args.num_of_philos)
@@ -149,20 +150,16 @@ int	ft_init_everything_except_for_threads_and_time(struct s_data *out)
 {
 	int	i;
 
-	if (pthread_mutex_init(&out->output_lock, NULL) == -1)
+	if (pthread_mutex_init(&out->finish_lock, NULL) == -1)
 		return (-1);
-	else if (pthread_mutex_init(&out->finish_lock, NULL) == -1)
-		return ((void)pthread_mutex_destroy(&out->output_lock), -1);
 	else if (ft_init_forks(out) == -1)
-		return ((void)pthread_mutex_destroy(&out->output_lock),
-			(void)pthread_mutex_destroy(&out->finish_lock), -1);
+		return ((void)pthread_mutex_destroy(&out->finish_lock), -1);
 	else if (ft_init_philos_except_for_threads_and_time(out) == -1)
 	{
 		i = 0;
 		while (i < out->args.num_of_philos)
 			(void)pthread_mutex_destroy(&out->forks[i++]);
-		return ((void)pthread_mutex_destroy(&out->output_lock),
-			(void)pthread_mutex_destroy(&out->finish_lock),
+		return ((void)pthread_mutex_destroy(&out->finish_lock),
 			free(out->forks), out->forks = NULL, -1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:02:43 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 00:58:19 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:23:15 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static bool	ft_philo_eat(struct s_philo *arg)
 	if (arg->main_data->finished)
 		return ((void)pthread_mutex_unlock(&arg->main_data->finish_lock),
 			(void)pthread_mutex_unlock(arg->f_fork), false);
-	ft_mutex_printf(arg, FORK);
+	ft_log(arg, FORK);
 	(void)pthread_mutex_unlock(&arg->main_data->finish_lock);
 	(void)pthread_mutex_lock(arg->s_fork);
 	(void)pthread_mutex_lock(&arg->main_data->finish_lock);
@@ -38,15 +38,16 @@ static bool	ft_philo_eat(struct s_philo *arg)
 		return ((void)pthread_mutex_unlock(&arg->main_data->finish_lock),
 			(void)pthread_mutex_unlock(arg->s_fork),
 			(void)pthread_mutex_unlock(arg->f_fork), false);
-	ft_mutex_printf(arg, FORK_AND_EATING);
+	ft_log(arg, FORK_AND_EATING);
 	(void)pthread_mutex_unlock(&arg->main_data->finish_lock);
 	ft_usleep(arg->main_data->args.time_to_eat);
 	(void)pthread_mutex_lock(&arg->meal_lock);
 	arg->last_meal = ft_get_current_ms();
 	arg->meals_eaten++;
 	(void)pthread_mutex_unlock(&arg->meal_lock);
-	return ((void)pthread_mutex_unlock(arg->s_fork),
-		(void)pthread_mutex_unlock(arg->f_fork), true);
+	(void)pthread_mutex_unlock(arg->s_fork);
+	(void)pthread_mutex_unlock(arg->f_fork);
+	return (true);
 }
 
 /**
@@ -61,7 +62,7 @@ static bool	ft_philo_sleep(struct s_philo *arg)
 	if (arg->main_data->finished)
 		return ((void)pthread_mutex_unlock(&arg->main_data->finish_lock),
 			false);
-	ft_mutex_printf(arg, SLEEPING);
+	ft_log(arg, SLEEPING);
 	(void)pthread_mutex_unlock(&arg->main_data->finish_lock);
 	ft_usleep(arg->main_data->args.time_to_sleep);
 	return (true);
@@ -93,7 +94,7 @@ static bool	ft_philo_think(struct s_philo *arg, bool silent)
 		return ((void)pthread_mutex_unlock(&arg->main_data->finish_lock),
 			false);
 	if (!silent)
-		ft_mutex_printf(arg, THINKING);
+		ft_log(arg, THINKING);
 	(void)pthread_mutex_unlock(&arg->main_data->finish_lock);
 	return (true);
 }

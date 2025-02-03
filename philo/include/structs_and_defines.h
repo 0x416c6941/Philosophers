@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:56:23 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 00:52:02 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:22:38 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,9 @@ struct s_data
 	struct s_philo	*philos;
 	long			start_time;
 	pthread_mutex_t	*forks;
-	/* Do we even need \ref output_lock, when everything
-	 * is potentially synchronized with \p finish_lock? */
-	pthread_mutex_t	output_lock;
 	bool			finished;
+	/* This lock is sufficient for both
+	 * \ref finished checking and logging to stdout. */
 	pthread_mutex_t	finish_lock;
 };
 

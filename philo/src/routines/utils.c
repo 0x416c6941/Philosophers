@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 14:49:03 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 15:29:55 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:19:40 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 #include <stdio.h>
 #include <time_stuff.h>
 
-void	ft_mutex_printf(struct s_philo *philo, enum e_mutex_printf action)
+void	ft_log(struct s_philo *philo, enum e_mutex_printf action)
 {
 	long	ms_timestamp;
 
-	(void)pthread_mutex_lock(&philo->main_data->output_lock);
 	ms_timestamp = ft_get_current_ms() - philo->main_data->start_time;
 	if (action == FORK || action == FORK_AND_EATING)
 	{
@@ -35,5 +34,4 @@ void	ft_mutex_printf(struct s_philo *philo, enum e_mutex_printf action)
 		printf("%ld %d is thinking\n", ms_timestamp, philo->id);
 	else if (action == DIED)
 		printf("%ld %d died\n", ms_timestamp, philo->id);
-	(void)pthread_mutex_unlock(&philo->main_data->output_lock);
 }

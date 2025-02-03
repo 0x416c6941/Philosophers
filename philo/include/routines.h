@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 14:42:04 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 15:33:40 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:24:57 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ void	*ft_philo_routine(struct s_philo *arg);
 void	*ft_watchdog_routine(struct s_data *data);
 
 /**
- * printf()s \p action of a \p philo,
- * while locking and later unlocking printf()s mutex lock.
+ * printf()s \p action of a \p philo.
+ * @warning	Lock the simulation finish mutex before calling this function!
  * @param	philo	Which philo does some action.
  * @param	action	Which action exactly is it.
  */
-void	ft_mutex_printf(struct s_philo *philo, enum e_mutex_printf action);
+void	ft_log(struct s_philo *philo, enum e_mutex_printf action);
 
 #endif	/* ROUTINES_H */

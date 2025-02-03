@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 00:50:07 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 00:50:51 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:21:38 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ void	ft_deinit(struct s_data *data)
 	data->philos = NULL;
 	free(data->forks);
 	data->forks = NULL;
-	(void)pthread_mutex_destroy(&data->output_lock);
 	(void)pthread_mutex_destroy(&data->finish_lock);
 }
