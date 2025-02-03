@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:46:33 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 15:33:49 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:59:56 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <time_stuff.h>
 #include <routines.h>
 
-/* Add delay, so that simulation doesn't start immediately.
+/* Add delay, so that all threads start at the same time.
  * Parameter below will be multiplied by the amount of philos. */
 #define ADD_DELAY	20
 
