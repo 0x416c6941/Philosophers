@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 14:49:03 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 01:46:34 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 02:11:37 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <time_stuff.h>
 
+/* Please note tht "DIED" action will be logged
+ * in another function, so that the death timestamp is more precise. */
 void	ft_log(struct s_philo *philo, enum e_log_what action)
 {
 	long	ms_timestamp;
