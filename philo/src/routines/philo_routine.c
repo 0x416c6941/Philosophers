@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:02:43 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 02:13:04 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 02:39:39 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
  * Philos eating routine.
  * @param	arg	Philos data.
  * @return	true, if simulation hasn't stopped;
- * 			false, if simulation has stopped.
+ * 			false, if simulation has stopped
+ * 				(or if philo ate required amount of times).
  */
 static bool	ft_philo_eat(struct s_philo *arg)
 {
@@ -44,10 +45,12 @@ static bool	ft_philo_eat(struct s_philo *arg)
 	(void)pthread_mutex_lock(&arg->meal_lock);
 	arg->last_meal = ft_get_current_ms();
 	arg->meals_eaten++;
-	(void)pthread_mutex_unlock(&arg->meal_lock);
 	(void)pthread_mutex_unlock(arg->s_fork);
 	(void)pthread_mutex_unlock(arg->f_fork);
-	return (true);
+	if (arg->main_data->args.cycles != -1
+		&& arg->meals_eaten >= arg->main_data->args.cycles)
+		return ((void)pthread_mutex_unlock(&arg->meal_lock), false);
+	return ((void)pthread_mutex_unlock(&arg->meal_lock), true);
 }
 
 /**
@@ -128,14 +131,7 @@ void	*ft_philo_routine(struct s_philo *arg)
 		ft_philo_think(arg, SILENT);
 	while (42)
 	{
-		if (ft_philo_eat(arg) == false)
-			return ((void *)0);
-		(void)pthread_mutex_lock(&arg->meal_lock);
-		if (arg->main_data->args.cycles != -1
-			&& arg->meals_eaten >= arg->main_data->args.cycles)
-			return ((void)pthread_mutex_unlock(&arg->meal_lock), (void *)0);
-		(void)pthread_mutex_unlock(&arg->meal_lock);
-		if (ft_philo_sleep(arg) == false
+		if (ft_philo_eat(arg) == false || ft_philo_sleep(arg) == false
 			|| ft_philo_think(arg, WITH_LOGGING) == false)
 			return ((void *)0);
 	}
