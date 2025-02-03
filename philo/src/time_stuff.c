@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 00:50:00 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 01:08:38 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:40:50 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #define MICROSECONDS_IN_MS	1000
 
 /* In microseconds. See usleep(3). */
-#define FT_USLEEP_ADD_DELAY	250
+#define FT_USLEEP_SUSPEND_EXECUTION	100
 
 long	ft_get_current_ms(void)
 {
@@ -51,5 +51,5 @@ void	ft_usleep(long ms)
 	const long	start = ft_get_current_ms();
 
 	while ((ft_get_current_ms() - start) < ms)
-		usleep(FT_USLEEP_ADD_DELAY);
+		usleep(FT_USLEEP_SUSPEND_EXECUTION);
 }

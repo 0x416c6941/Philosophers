@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:33:53 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 01:24:27 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:36:58 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include <stdbool.h>
 #include <time_stuff.h>
 #include <pthread.h>
+#include <unistd.h>
+
+#define SUSPEND_WATCHDOG	1000
 
 void	*ft_watchdog_routine(struct s_data *data)
 {
@@ -42,10 +45,12 @@ void	*ft_watchdog_routine(struct s_data *data)
 			if (data->philos[i].meals_eaten < data->args.cycles)
 				everybody_ate_enough = false;
 			(void)pthread_mutex_unlock(&data->philos[i].meal_lock);
+			i++;
 		}
 		if (everybody_ate_enough)
 			return ((void)pthread_mutex_lock(&data->finish_lock),
 				data->finished = true,
 				(void)pthread_mutex_unlock(&data->finish_lock), (void *)0);
+		usleep(SUSPEND_WATCHDOG);
 	}
 }
