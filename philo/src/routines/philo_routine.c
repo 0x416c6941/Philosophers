@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:02:43 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 02:39:39 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 02:41:11 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	*ft_philo_routine(struct s_philo *arg)
 	arg->last_meal = arg->main_data->start_time;
 	arg->meals_eaten = 0;
 	(void)pthread_mutex_unlock(&arg->meal_lock);
-	if (arg->main_data->args.num_of_philos == 0
+	if (arg->main_data->args.num_of_philos == 1
 		|| arg->main_data->args.time_to_die == 0
 		|| arg->main_data->args.cycles == 0)
 		return ((void *)0);
