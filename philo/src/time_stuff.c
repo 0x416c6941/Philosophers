@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 00:50:00 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 01:05:36 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:08:38 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ long	ft_get_current_ms(void)
 	return (time.tv_sec * MS_IN_SEC + time.tv_usec / MICROSECONDS_IN_MS);
 }
 
+/* pthread_cond_broadcast() is forbidden.
+ * Sad. We need to rely on this dirty hack instead. */
 void	ft_wait_until(long ms)
 {
 	while (ft_get_current_ms() < ms)
