@@ -1,8 +1,7 @@
 # Compiler options.
 CC = cc
 CFLAGS = -I$(INC_DIR)						\
-	 -Wall -Wextra -Wsign-conversion -pedantic -Werror	\
-	 -g
+	 -Wall -Wextra -Wsign-conversion -pedantic -Werror
 
 # Headers.
 INC_DIR = include
