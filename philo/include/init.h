@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:30:32 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/02 14:25:58 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:15:58 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		ft_init_args(int argc, char *argv[], struct s_args *out);
 int		ft_init_everything_except_for_threads_and_time(struct s_data *out);
 
 /**
- * Wait for all philos to stop running, and clear all allocated memory.
+ * Wait for all philos to stop running, and clears all allocated memory.
  * @param	data	Data to deallocate.
  */
 void	ft_deinit(struct s_data *data);
