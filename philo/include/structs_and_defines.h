@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:56:23 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 01:22:38 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:13:07 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ struct s_philo
 	int				id;
 	long			last_meal;		/* Time of last meal in milliseconds. */
 	int				meals_eaten;
-	/* \ref last_meal and meals_eaten are both crtiical sections. */
+	/* \ref last_meal and meals_eaten are both critical sections. */
 	pthread_mutex_t	meal_lock;
 	/* To make stuff easier, these are pointers
 	 * to first and second forks for philo to take. */
