@@ -6,7 +6,7 @@
 /*   By: asagymba <asagymba@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 23:38:21 by asagymba          #+#    #+#             */
-/*   Updated: 2025/02/03 01:21:32 by asagymba         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:24:52 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <structs_and_defines.h>
 #include <utils.h>
 #include <stdbool.h>
-#include <time_stuff.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <pthread.h>
