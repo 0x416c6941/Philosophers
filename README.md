@@ -4,7 +4,7 @@
 It's used as an introduction to concurrent programming in a *42 School*.
 
 ## Building and usage
-To build the project, simply type:
+To build the project, simply type in **"philo/"** directory:
 ```
 make
 ```
